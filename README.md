@@ -1,0 +1,3 @@
+- Standard ERC20 functions
+- Onwer-related functions
+- Upgrading capabilities 
