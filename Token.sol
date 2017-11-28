@@ -72,7 +72,7 @@ contract Token {
     uint256 public totalSupply = 0;
 
     mapping(address => uint256) balances;
-    mapping (address => mapping (address => uint256)) allowed;
+    mapping(address => mapping (address => uint256)) allowed;
 
 
     event Transfer(address indexed _from, address indexed _to, uint256 _value);
@@ -92,7 +92,8 @@ contract Token {
 
     function transferFrom(address _from, address _to, uint256 _value) unlocked public returns (bool) {
         require(_to != address(0));
-        var _allowance = allowed[_from][msg.sender];
+        uint256 _allowance = allowed[_from][msg.sender];
+        require(_allowance >= _value);
         balances[_from] = balances[_from].sub(_value);
         balances[_to] = balances[_to].add(_value);
         allowed[_from][msg.sender] = _allowance.sub(_value);
@@ -122,9 +123,9 @@ contract Token {
         returns (bool success) {
             uint oldValue = allowed[msg.sender][_spender];
             if (_subtractedValue > oldValue) {
-            allowed[msg.sender][_spender] = 0;
+                allowed[msg.sender][_spender] = 0;
             } else {
-            allowed[msg.sender][_spender] = oldValue.sub(_subtractedValue);
+                allowed[msg.sender][_spender] = oldValue.sub(_subtractedValue);
             }
             Approval(msg.sender, _spender, allowed[msg.sender][_spender]);
             return true;
@@ -134,7 +135,7 @@ contract Token {
         //values are in natural format
 
         address publicSaleReserveAddress = 0xDef97e9F16831DA75a52fF583323c4cdd1f508da;
-        mint(publicSaleReserveAddress, 40000000);
+        mint(publicSaleReserveAddress, 74000000);
 
         address preICOconversionFromWavesReserveAddress = 0x2E3Da0E4DF6C6704c21bD53D873Af09af0a34f86;
         mint(preICOconversionFromWavesReserveAddress, 3000000);
