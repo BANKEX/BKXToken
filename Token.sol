@@ -212,11 +212,23 @@ contract Token {
         return true;
     }
 
+  /**
+   * @dev Function to lock token transfers
+   * @param _newLockState New lock state
+   * @return A boolean that indicates if the operation was successful.
+   */
+
     function setLock(bool _newLockState) onlyOwner public returns (bool success) {
         require(_newLockState != locked);
         locked = _newLockState;
         return true;
     }
+
+  /**
+   * @dev Function to allow token upgrades
+   * @param _newState New upgrading allowance state
+   * @return A boolean that indicates if the operation was successful.
+   */
 
     function allowUpgrading(bool _newState) onlyOwner public returns (bool success) {
         upgradable = _newState;
